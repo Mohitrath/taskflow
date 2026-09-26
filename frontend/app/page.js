@@ -1,0 +1,1 @@
+'use client';import{useEffect}from'react';import{useRouter}from'next/navigation';import{useAuth}from'../context/AuthContext';export default function Home(){const r=useRouter();const{user,loading}=useAuth();useEffect(()=>{if(!loading)r.replace(user?'/dashboard':'/login')},[loading,user,r]);return <main className="center">Loading TaskFlow…</main>}
