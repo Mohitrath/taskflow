@@ -109,6 +109,11 @@ function localRequest(path, options = {}) {
 }
 
 async function req(path, o = {}) {
+  // If no real backend URL is configured, run fully in browser-local mode.
+  // This prevents a production Vercel deployment from ever trying localhost or
+  // showing a backend-unavailable error before the API is deployed.
+  if (!process.env.NEXT_PUBLIC_API_URL) return localRequest(path, o);
+
   const h = { 'Content-Type': 'application/json', ...(o.headers || {}) };
   const t = typeof window !== 'undefined' && localStorage.getItem('taskflow_token');
   if (t) h.Authorization = 'Bearer ' + t;
